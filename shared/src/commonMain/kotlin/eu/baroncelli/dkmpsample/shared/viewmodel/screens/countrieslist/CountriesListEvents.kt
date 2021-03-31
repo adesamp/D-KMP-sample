@@ -2,27 +2,31 @@ package eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist
 
 import eu.baroncelli.dkmpsample.shared.viewmodel.Events
 
-/********** INTERNAL event function, used by the StateProvider **********/
+class CountriesListEvents (private val events: Events) {
+    private val countryListStateReducers = CountriesListStateReducers(events.stateReducers)
 
-internal fun Events.loadCountriesListData() {
-    val restoredSelectedMenuItem = stateReducers.restoreSelectedMenuItem()
-    //debugLogger.log("restoredSelectedMenuItem: "+restoredSelectedMenuItem)
-    // launch a coroutine, as "updateCountriesList" is a suspend function
-    launchCoroutine {
-        stateReducers.updateCountriesList(restoredSelectedMenuItem)
+    /********** INTERNAL event function, used by the StateProvider **********/
+
+    internal fun loadCountriesListData() {
+        val restoredSelectedMenuItem = countryListStateReducers.restoreSelectedMenuItem()
+        //debugLogger.log("restoredSelectedMenuItem: "+restoredSelectedMenuItem)
+        // launch a coroutine, as "updateCountriesList" is a suspend function
+        events.launchCoroutine {
+            countryListStateReducers.updateCountriesList(restoredSelectedMenuItem)
+        }
     }
-}
 
 
-/********** PUBLIC event functions **********/
+    /********** PUBLIC event functions **********/
 
-fun Events.selectMenuItem(menuItem: MenuItem) {
-    // launch a coroutine, as "updateCountriesList" is a suspend function
-    launchCoroutine {
-        stateReducers.updateCountriesList(menuItem)
+    fun selectMenuItem(menuItem: MenuItem) {
+        // launch a coroutine, as "updateCountriesList" is a suspend function
+        events.launchCoroutine {
+            countryListStateReducers.updateCountriesList(menuItem)
+        }
     }
-}
 
-fun Events.selectFavorite(country: String) {
-    stateReducers.toggleFavorite(country)
+    fun selectFavorite(country: String) {
+        countryListStateReducers.toggleFavorite(country)
+    }
 }

@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.sp
-import eu.baroncelli.dkmpsample.android.LoadingElement
+import eu.baroncelli.dkmpsample.android.screens.LoadingElement
 import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrydetail.CountryDetailState
 
 @Composable
