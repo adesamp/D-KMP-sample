@@ -2,11 +2,15 @@ package eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrydetail
 
 import eu.baroncelli.dkmpsample.shared.viewmodel.Events
 
-/********** INTERNAL event function, used by the StateProvider **********/
+class CountryDetailEvents (private val events: Events) {
+    private val countryDetailStateReducers = CountryDetailStateReducers(events.stateReducers,)
 
-internal fun Events.loadCountryDetailData(country: String) {
-    // launch a coroutine, as "updateCountryDetail" is a suspend function
-    launchCoroutine {
-        stateReducers.updateCountryDetail(country)
+    /********** INTERNAL event function, used by the StateProvider **********/
+
+    internal fun loadCountryDetailData(country: String) {
+        // launch a coroutine, as "updateCountryDetail" is a suspend function
+        events.launchCoroutine {
+            countryDetailStateReducers.updateCountryDetail(country)
+        }
     }
 }

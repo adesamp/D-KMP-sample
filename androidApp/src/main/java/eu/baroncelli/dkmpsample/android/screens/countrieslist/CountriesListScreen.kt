@@ -11,14 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import eu.baroncelli.dkmpsample.android.LoadingElement
-import eu.baroncelli.dkmpsample.shared.viewmodel.Events
+import eu.baroncelli.dkmpsample.android.screens.LoadingElement
+import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.CountriesListEvents
 import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.CountriesListState
-import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.selectFavorite
-import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.selectMenuItem
 
 @Composable
-fun CountriesListScreen(countriesListState: CountriesListState, events : Events, onListItemClick: (String) -> Unit) {
+fun CountriesListScreen(countriesListState: CountriesListState, events : CountriesListEvents, onListItemClick: (String) -> Unit) {
 
     Scaffold(
         topBar = {

@@ -11,8 +11,9 @@ import eu.baroncelli.dkmpsample.android.screens.countrydetail.CountryDetailScree
 import eu.baroncelli.dkmpsample.android.screens.countrieslist.CountriesListScreen
 import eu.baroncelli.dkmpsample.shared.viewmodel.KMPViewModel
 import androidx.compose.runtime.getValue
-import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrydetail.getCountryDetailState
-import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.getCountriesListState
+import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.CountriesListEvents
+import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrieslist.CountriesListStateProvider
+import eu.baroncelli.dkmpsample.shared.viewmodel.screens.countrydetail.CountryDetailStateProvider
 
 @Composable
 fun Navigation(model: KMPViewModel) {
@@ -20,7 +21,8 @@ fun Navigation(model: KMPViewModel) {
     val events = model.events
     val appState by model.stateFlow.collectAsState()
     Log.d("D-KMP-SAMPLE","recomposition Index: "+appState.recompositionIndex.toString())
-    val stateProvider = appState.getStateProvider(model)
+    val listStateProvider = CountriesListStateProvider(appState.getStateProvider(model))
+    val detailStateProvider = CountryDetailStateProvider(appState.getStateProvider(model))
 
 
     val navController = rememberNavController()
@@ -28,15 +30,15 @@ fun Navigation(model: KMPViewModel) {
     NavHost(navController, startDestination = "countrieslist") {
         composable("countrieslist") {
             CountriesListScreen(
-                countriesListState = stateProvider.getCountriesListState(),
-                events = events,
+                countriesListState = listStateProvider.getCountriesListState(),
+                events = CountriesListEvents(events),
                 onListItemClick = { navController.navigate("country/$it") },
             )
         }
         composable("country/{item}") { backStackEntry ->
             val item = backStackEntry.arguments?.getString("item")!!
             CountryDetailScreen(
-                countryDetailState = stateProvider.getCountryDetailState(item)
+                countryDetailState = detailStateProvider.getCountryDetailState(item)
             )
         }
     }

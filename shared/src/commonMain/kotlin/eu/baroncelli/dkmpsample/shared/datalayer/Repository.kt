@@ -8,7 +8,7 @@ import eu.baroncelli.dkmpsample.shared.datalayer.sources.webservices.apis.Countr
 import kotlin.native.concurrent.ThreadLocal
 
 
-class Repository (val settings : Settings = Settings()) {
+class Repository (private val settings : Settings = Settings()) {
 
     @ThreadLocal
     companion object Data {
